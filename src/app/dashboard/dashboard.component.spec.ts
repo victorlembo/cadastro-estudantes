@@ -2,26 +2,26 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { AlunoSearchComponent } from '../aluno-search/aluno-search.component';
-import { AlunoService } from '../aluno.service';
-import { HEROES } from '../mock-alunos';
+import { StudentSearchComponent } from '../student-search/student-search.component';
+import { StudentService } from '../student.service';
+import { HEROES } from '../mock-students';
 
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let alunoService;
-  let getAlunosSpy: jasmine.Spy;
+  let studentService;
+  let getStudentsSpy: jasmine.Spy;
 
   beforeEach(waitForAsync(() => {
-    alunoService = jasmine.createSpyObj('AlunoService', ['getAlunos']);
-    getAlunosSpy = alunoService.getAlunos.and.returnValue(of(HEROES));
+    studentService = jasmine.createSpyObj('StudentService', ['getStudents']);
+    getStudentsSpy = studentService.getStudents.and.returnValue(of(HEROES));
     TestBed
         .configureTestingModule({
-          declarations: [DashboardComponent, AlunoSearchComponent],
+          declarations: [DashboardComponent, StudentSearchComponent],
           imports: [RouterTestingModule.withRoutes([])],
-          providers: [{provide: AlunoService, useValue: alunoService}]
+          providers: [{provide: StudentService, useValue: studentService}]
         })
         .compileComponents();
   }));
@@ -36,12 +36,12 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display "Top Alunos" as headline', () => {
-    expect(fixture.nativeElement.querySelector('h2').textContent).toEqual('Top Alunos');
+  it('should display "Top Students" as headline', () => {
+    expect(fixture.nativeElement.querySelector('h2').textContent).toEqual('Top Students');
   });
 
-  it('should call alunoService', waitForAsync(() => {
-       expect(getAlunosSpy.calls.any()).toBe(true);
+  it('should call studentService', waitForAsync(() => {
+       expect(getStudentsSpy.calls.any()).toBe(true);
      }));
 
   it('should display 4 links', waitForAsync(() => {

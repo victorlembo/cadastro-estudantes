@@ -10,9 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AlunoDetailComponent } from './aluno-detail/aluno-detail.component';
-import { AlunosComponent } from './alunos/alunos.component';
-import { AlunoSearchComponent } from './aluno-search/aluno-search.component';
+import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { StudentsComponent } from './students/students.component';
+import { StudentSearchComponent } from './student-search/student-search.component';
 import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
@@ -32,10 +32,10 @@ import { MessagesComponent } from './messages/messages.component';
   declarations: [
     AppComponent,
     DashboardComponent,
-    AlunosComponent,
-    AlunoDetailComponent,
+    StudentsComponent,
+    StudentDetailComponent,
     MessagesComponent,
-    AlunoSearchComponent
+    StudentSearchComponent
   ],
   bootstrap: [ AppComponent ]
 })

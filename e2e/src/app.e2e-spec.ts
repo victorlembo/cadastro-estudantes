@@ -1,35 +1,35 @@
 import { browser, element, by, ElementFinder, ElementArrayFinder } from 'protractor';
 
-const expectedH1 = 'Tour of Alunos';
+const expectedH1 = 'Tour of Students';
 const expectedTitle = `${expectedH1}`;
-const targetAluno = { id: 15, name: 'Magneta' };
-const targetAlunoDashboardIndex = 3;
+const targetStudent = { id: 15, name: 'Magneta' };
+const targetStudentDashboardIndex = 3;
 const nameSuffix = 'X';
-const newAlunoName = targetAluno.name + nameSuffix;
+const newStudentName = targetStudent.name + nameSuffix;
 
-class Aluno {
+class Student {
   constructor(public id: number, public name: string) {}
 
   // Factory methods
 
-  // Aluno from string formatted as '<id> <name>'.
-  static fromString(s: string): Aluno {
-    return new Aluno(
+  // Student from string formatted as '<id> <name>'.
+  static fromString(s: string): Student {
+    return new Student(
       +s.substr(0, s.indexOf(' ')),
       s.substr(s.indexOf(' ') + 1),
     );
   }
 
-  // Aluno from aluno list <li> element.
-  static async fromLi(li: ElementFinder): Promise<Aluno> {
+  // Student from student list <li> element.
+  static async fromLi(li: ElementFinder): Promise<Student> {
     const stringsFromA = await li.all(by.css('a')).getText();
     const strings = stringsFromA[0].split(' ');
     return { id: +strings[0], name: strings[1] };
   }
 
-  // Aluno id and name from the given detail element.
-  static async fromDetail(detail: ElementFinder): Promise<Aluno> {
-    // Get aluno id from the first <div>
+  // Student id and name from the given detail element.
+  static async fromDetail(detail: ElementFinder): Promise<Student> {
+    // Get student id from the first <div>
     const id = await detail.all(by.css('div')).first().getText();
     // Get name from the h2
     const name = await detail.element(by.css('h2')).getText();
@@ -52,14 +52,14 @@ describe('Tutorial part 6', () => {
 
       appDashboardHref: navElts.get(0),
       appDashboard: element(by.css('app-root app-dashboard')),
-      topAlunos: element.all(by.css('app-root app-dashboard > div a')),
+      topStudents: element.all(by.css('app-root app-dashboard > div a')),
 
-      appAlunosHref: navElts.get(1),
-      appAlunos: element(by.css('app-root app-alunos')),
-      allAlunos: element.all(by.css('app-root app-alunos li')),
-      selectedAlunoSubview: element(by.css('app-root app-alunos > div:last-child')),
+      appStudentsHref: navElts.get(1),
+      appStudents: element(by.css('app-root app-students')),
+      allStudents: element.all(by.css('app-root app-students li')),
+      selectedStudentSubview: element(by.css('app-root app-students > div:last-child')),
 
-      alunoDetail: element(by.css('app-root app-aluno-detail > div')),
+      studentDetail: element(by.css('app-root app-student-detail > div')),
 
       searchBox: element(by.css('#search-box')),
       searchResults: element.all(by.css('.search-result li'))
@@ -76,7 +76,7 @@ describe('Tutorial part 6', () => {
       await expectHeading(1, expectedH1);
     });
 
-    const expectedViewNames = ['Dashboard', 'Alunos'];
+    const expectedViewNames = ['Dashboard', 'Students'];
     it(`has views ${expectedViewNames}`, async () => {
       const viewNames = await getPageElts().navElts.map(el => el!.getText());
       expect(viewNames).toEqual(expectedViewNames);
@@ -93,98 +93,98 @@ describe('Tutorial part 6', () => {
 
     beforeAll(() => browser.get(''));
 
-    it('has top alunos', async () => {
+    it('has top students', async () => {
       const page = getPageElts();
-      expect(await page.topAlunos.count()).toEqual(4);
+      expect(await page.topStudents.count()).toEqual(4);
     });
 
-    it(`selects and routes to ${targetAluno.name} details`, dashboardSelectTargetAluno);
+    it(`selects and routes to ${targetStudent.name} details`, dashboardSelectTargetStudent);
 
-    it(`updates aluno name (${newAlunoName}) in details view`, updateAlunoNameInDetailView);
+    it(`updates student name (${newStudentName}) in details view`, updateStudentNameInDetailView);
 
-    it(`cancels and shows ${targetAluno.name} in Dashboard`, async () => {
+    it(`cancels and shows ${targetStudent.name} in Dashboard`, async () => {
       await element(by.buttonText('go back')).click();
       await browser.waitForAngular(); // seems necessary to gets tests to pass for toh-pt6
 
-      const targetAlunoElt = getPageElts().topAlunos.get(targetAlunoDashboardIndex);
-      expect(await targetAlunoElt.getText()).toEqual(targetAluno.name);
+      const targetStudentElt = getPageElts().topStudents.get(targetStudentDashboardIndex);
+      expect(await targetStudentElt.getText()).toEqual(targetStudent.name);
     });
 
-    it(`selects and routes to ${targetAluno.name} details`, dashboardSelectTargetAluno);
+    it(`selects and routes to ${targetStudent.name} details`, dashboardSelectTargetStudent);
 
-    it(`updates aluno name (${newAlunoName}) in details view`, updateAlunoNameInDetailView);
+    it(`updates student name (${newStudentName}) in details view`, updateStudentNameInDetailView);
 
-    it(`saves and shows ${newAlunoName} in Dashboard`, async () => {
+    it(`saves and shows ${newStudentName} in Dashboard`, async () => {
       await element(by.buttonText('save')).click();
       await browser.waitForAngular(); // seems necessary to gets tests to pass for toh-pt6
 
-      const targetAlunoElt = getPageElts().topAlunos.get(targetAlunoDashboardIndex);
-      expect(await targetAlunoElt.getText()).toEqual(newAlunoName);
+      const targetStudentElt = getPageElts().topStudents.get(targetStudentDashboardIndex);
+      expect(await targetStudentElt.getText()).toEqual(newStudentName);
     });
 
   });
 
-  describe('Alunos tests', () => {
+  describe('Students tests', () => {
 
     beforeAll(() => browser.get(''));
 
-    it('can switch to Alunos view', async () => {
-      await getPageElts().appAlunosHref.click();
+    it('can switch to Students view', async () => {
+      await getPageElts().appStudentsHref.click();
       const page = getPageElts();
-      expect(await page.appAlunos.isPresent()).toBeTruthy();
-      expect(await page.allAlunos.count()).toEqual(10, 'number of alunos');
+      expect(await page.appStudents.isPresent()).toBeTruthy();
+      expect(await page.allStudents.count()).toEqual(10, 'number of students');
     });
 
-    it('can route to aluno details', async () => {
-      await getAlunoLiEltById(targetAluno.id).click();
+    it('can route to student details', async () => {
+      await getStudentLiEltById(targetStudent.id).click();
 
       const page = getPageElts();
-      expect(await page.alunoDetail.isPresent()).toBeTruthy('shows aluno detail');
-      const aluno = await Aluno.fromDetail(page.alunoDetail);
-      expect(aluno.id).toEqual(targetAluno.id);
-      expect(aluno.name).toEqual(targetAluno.name.toUpperCase());
+      expect(await page.studentDetail.isPresent()).toBeTruthy('shows student detail');
+      const student = await Student.fromDetail(page.studentDetail);
+      expect(student.id).toEqual(targetStudent.id);
+      expect(student.name).toEqual(targetStudent.name.toUpperCase());
     });
 
-    it(`updates aluno name (${newAlunoName}) in details view`, updateAlunoNameInDetailView);
+    it(`updates student name (${newStudentName}) in details view`, updateStudentNameInDetailView);
 
-    it(`shows ${newAlunoName} in Alunos list`, async () => {
+    it(`shows ${newStudentName} in Students list`, async () => {
       await element(by.buttonText('save')).click();
       await browser.waitForAngular();
-      const expectedText = `${targetAluno.id} ${newAlunoName}`;
-      expect(await getAlunoAEltById(targetAluno.id).getText()).toEqual(expectedText);
+      const expectedText = `${targetStudent.id} ${newStudentName}`;
+      expect(await getStudentAEltById(targetStudent.id).getText()).toEqual(expectedText);
     });
 
-    it(`deletes ${newAlunoName} from Alunos list`, async () => {
-      const alunoesBefore = await toAlunoArray(getPageElts().allAlunos);
-      const li = getAlunoLiEltById(targetAluno.id);
+    it(`deletes ${newStudentName} from Students list`, async () => {
+      const studentesBefore = await toStudentArray(getPageElts().allStudents);
+      const li = getStudentLiEltById(targetStudent.id);
       await li.element(by.buttonText('x')).click();
 
       const page = getPageElts();
-      expect(await page.appAlunos.isPresent()).toBeTruthy();
-      expect(await page.allAlunos.count()).toEqual(9, 'number of alunos');
-      const alunoesAfter = await toAlunoArray(page.allAlunos);
-      // console.log(await Aluno.fromLi(page.allAlunos[0]));
-      const expectedAlunos =  alunoesBefore.filter(h => h.name !== newAlunoName);
-      expect(alunoesAfter).toEqual(expectedAlunos);
-      // expect(page.selectedAlunoSubview.isPresent()).toBeFalsy();
+      expect(await page.appStudents.isPresent()).toBeTruthy();
+      expect(await page.allStudents.count()).toEqual(9, 'number of students');
+      const studentesAfter = await toStudentArray(page.allStudents);
+      // console.log(await Student.fromLi(page.allStudents[0]));
+      const expectedStudents =  studentesBefore.filter(h => h.name !== newStudentName);
+      expect(studentesAfter).toEqual(expectedStudents);
+      // expect(page.selectedStudentSubview.isPresent()).toBeFalsy();
     });
 
-    it(`adds back ${targetAluno.name}`, async () => {
-      const addedAlunoName = 'Alice';
-      const alunoesBefore = await toAlunoArray(getPageElts().allAlunos);
-      const numAlunos = alunoesBefore.length;
+    it(`adds back ${targetStudent.name}`, async () => {
+      const addedStudentName = 'Alice';
+      const studentesBefore = await toStudentArray(getPageElts().allStudents);
+      const numStudents = studentesBefore.length;
 
-      await element(by.css('input')).sendKeys(addedAlunoName);
-      await element(by.buttonText('Add aluno')).click();
+      await element(by.css('input')).sendKeys(addedStudentName);
+      await element(by.buttonText('Add student')).click();
 
       const page = getPageElts();
-      const alunoesAfter = await toAlunoArray(page.allAlunos);
-      expect(alunoesAfter.length).toEqual(numAlunos + 1, 'number of alunos');
+      const studentesAfter = await toStudentArray(page.allStudents);
+      expect(studentesAfter.length).toEqual(numStudents + 1, 'number of students');
 
-      expect(alunoesAfter.slice(0, numAlunos)).toEqual(alunoesBefore, 'Old alunos are still there');
+      expect(studentesAfter.slice(0, numStudents)).toEqual(studentesBefore, 'Old students are still there');
 
-      const maxId = alunoesBefore[alunoesBefore.length - 1].id;
-      expect(alunoesAfter[numAlunos]).toEqual({id: maxId + 1, name: addedAlunoName});
+      const maxId = studentesBefore[studentesBefore.length - 1].id;
+      expect(studentesAfter[numStudents]).toEqual({id: maxId + 1, name: addedStudentName});
     });
 
     it('displays correctly styled buttons', async () => {
@@ -196,12 +196,12 @@ describe('Tutorial part 6', () => {
         expect(await button.getCssValue('border')).toContain('none');
         expect(await button.getCssValue('padding')).toBe('1px 10px 3px');
         expect(await button.getCssValue('border-radius')).toBe('4px');
-        // Styles defined in alunos.component.css
+        // Styles defined in students.component.css
         expect(await button.getCssValue('left')).toBe('210px');
         expect(await button.getCssValue('top')).toBe('5px');
       }
 
-      const addButton = element(by.buttonText('Add aluno'));
+      const addButton = element(by.buttonText('Add student'));
       // Inherited styles from styles.css
       expect(await addButton.getCssValue('font-family')).toBe('Arial, Helvetica, sans-serif');
       expect(await addButton.getCssValue('border')).toContain('none');
@@ -211,7 +211,7 @@ describe('Tutorial part 6', () => {
 
   });
 
-  describe('Progressive aluno search', () => {
+  describe('Progressive student search', () => {
 
     beforeAll(() => browser.get(''));
 
@@ -228,54 +228,54 @@ describe('Tutorial part 6', () => {
       expect(await getPageElts().searchResults.count()).toBe(2);
     });
 
-    it(`continues search with 'e' and gets ${targetAluno.name}`, async () => {
+    it(`continues search with 'e' and gets ${targetStudent.name}`, async () => {
       await getPageElts().searchBox.sendKeys('n');
       await browser.sleep(1000);
       const page = getPageElts();
       expect(await page.searchResults.count()).toBe(1);
-      const aluno = page.searchResults.get(0);
-      expect(await aluno.getText()).toEqual(targetAluno.name);
+      const student = page.searchResults.get(0);
+      expect(await student.getText()).toEqual(targetStudent.name);
     });
 
-    it(`navigates to ${targetAluno.name} details view`, async () => {
-      const aluno = getPageElts().searchResults.get(0);
-      expect(await aluno.getText()).toEqual(targetAluno.name);
-      await aluno.click();
+    it(`navigates to ${targetStudent.name} details view`, async () => {
+      const student = getPageElts().searchResults.get(0);
+      expect(await student.getText()).toEqual(targetStudent.name);
+      await student.click();
 
       const page = getPageElts();
-      expect(await page.alunoDetail.isPresent()).toBeTruthy('shows aluno detail');
-      const aluno2 = await Aluno.fromDetail(page.alunoDetail);
-      expect(aluno2.id).toEqual(targetAluno.id);
-      expect(aluno2.name).toEqual(targetAluno.name.toUpperCase());
+      expect(await page.studentDetail.isPresent()).toBeTruthy('shows student detail');
+      const student2 = await Student.fromDetail(page.studentDetail);
+      expect(student2.id).toEqual(targetStudent.id);
+      expect(student2.name).toEqual(targetStudent.name.toUpperCase());
     });
   });
 
-  async function dashboardSelectTargetAluno() {
-    const targetAlunoElt = getPageElts().topAlunos.get(targetAlunoDashboardIndex);
-    expect(await targetAlunoElt.getText()).toEqual(targetAluno.name);
-    await targetAlunoElt.click();
+  async function dashboardSelectTargetStudent() {
+    const targetStudentElt = getPageElts().topStudents.get(targetStudentDashboardIndex);
+    expect(await targetStudentElt.getText()).toEqual(targetStudent.name);
+    await targetStudentElt.click();
     await browser.waitForAngular(); // seems necessary to gets tests to pass for toh-pt6
 
     const page = getPageElts();
-    expect(await page.alunoDetail.isPresent()).toBeTruthy('shows aluno detail');
-    const aluno = await Aluno.fromDetail(page.alunoDetail);
-    expect(aluno.id).toEqual(targetAluno.id);
-    expect(aluno.name).toEqual(targetAluno.name.toUpperCase());
+    expect(await page.studentDetail.isPresent()).toBeTruthy('shows student detail');
+    const student = await Student.fromDetail(page.studentDetail);
+    expect(student.id).toEqual(targetStudent.id);
+    expect(student.name).toEqual(targetStudent.name.toUpperCase());
   }
 
-  async function updateAlunoNameInDetailView() {
-    // Assumes that the current view is the aluno details view.
-    await addToAlunoName(nameSuffix);
+  async function updateStudentNameInDetailView() {
+    // Assumes that the current view is the student details view.
+    await addToStudentName(nameSuffix);
 
     const page = getPageElts();
-    const aluno = await Aluno.fromDetail(page.alunoDetail);
-    expect(aluno.id).toEqual(targetAluno.id);
-    expect(aluno.name).toEqual(newAlunoName.toUpperCase());
+    const student = await Student.fromDetail(page.studentDetail);
+    expect(student.id).toEqual(targetStudent.id);
+    expect(student.name).toEqual(newStudentName.toUpperCase());
   }
 
 });
 
-async function addToAlunoName(text: string): Promise<void> {
+async function addToStudentName(text: string): Promise<void> {
   const input = element(by.css('input'));
   await input.sendKeys(text);
 }
@@ -286,16 +286,16 @@ async function expectHeading(hLevel: number, expectedText: string): Promise<void
   expect(hText).toEqual(expectedText, hTag);
 }
 
-function getAlunoAEltById(id: number): ElementFinder {
+function getStudentAEltById(id: number): ElementFinder {
   const spanForId = element(by.cssContainingText('li span.badge', id.toString()));
   return spanForId.element(by.xpath('..'));
 }
 
-function getAlunoLiEltById(id: number): ElementFinder {
+function getStudentLiEltById(id: number): ElementFinder {
   const spanForId = element(by.cssContainingText('li span.badge', id.toString()));
   return spanForId.element(by.xpath('../..'));
 }
 
-async function toAlunoArray(allAlunos: ElementArrayFinder): Promise<Aluno[]> {
-  return allAlunos.map(aluno => Aluno.fromLi(aluno!));
+async function toStudentArray(allStudents: ElementArrayFinder): Promise<Student[]> {
+  return allStudents.map(student => Student.fromLi(student!));
 }

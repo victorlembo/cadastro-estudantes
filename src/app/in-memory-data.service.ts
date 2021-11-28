@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Aluno } from './aluno';
+import { Student } from './student';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    const alunos = [
+    const students = [
       { id: 11, name: 'Dr Nice' },
       { id: 12, name: 'Narco' },
       { id: 13, name: 'Bombasto' },
@@ -19,15 +19,15 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    return {alunos};
+    return {students};
   }
 
-  // Overrides the genId method to ensure that a aluno always has an id.
-  // If the alunos array is empty,
+  // Overrides the genId method to ensure that a student always has an id.
+  // If the students array is empty,
   // the method below returns the initial number (11).
-  // if the alunos array is not empty, the method below returns the highest
-  // aluno id + 1.
-  genId(alunos: Aluno[]): number {
-    return alunos.length > 0 ? Math.max(...alunos.map(aluno => aluno.id)) + 1 : 11;
+  // if the students array is not empty, the method below returns the highest
+  // student id + 1.
+  genId(students: Student[]): number {
+    return students.length > 0 ? Math.max(...students.map(student => student.id)) + 1 : 11;
   }
 }
