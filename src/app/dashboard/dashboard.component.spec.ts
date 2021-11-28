@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { StudentSearchComponent } from '../student-search/student-search.component';
 import { StudentService } from '../student.service';
-import { HEROES } from '../mock-students';
+import { STUDENTS } from '../mock-students';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -16,7 +16,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     studentService = jasmine.createSpyObj('StudentService', ['getStudents']);
-    getStudentsSpy = studentService.getStudents.and.returnValue(of(HEROES));
+    getStudentsSpy = studentService.getStudents.and.returnValue(of(STUDENTS));
     TestBed
         .configureTestingModule({
           declarations: [DashboardComponent, StudentSearchComponent],

@@ -155,36 +155,36 @@ describe('Tutorial part 6', () => {
     });
 
     it(`deletes ${newStudentName} from Students list`, async () => {
-      const studentesBefore = await toStudentArray(getPageElts().allStudents);
+      const studentsBefore = await toStudentArray(getPageElts().allStudents);
       const li = getStudentLiEltById(targetStudent.id);
       await li.element(by.buttonText('x')).click();
 
       const page = getPageElts();
       expect(await page.appStudents.isPresent()).toBeTruthy();
       expect(await page.allStudents.count()).toEqual(9, 'number of students');
-      const studentesAfter = await toStudentArray(page.allStudents);
+      const studentsAfter = await toStudentArray(page.allStudents);
       // console.log(await Student.fromLi(page.allStudents[0]));
-      const expectedStudents =  studentesBefore.filter(h => h.name !== newStudentName);
-      expect(studentesAfter).toEqual(expectedStudents);
+      const expectedStudents =  studentsBefore.filter(h => h.name !== newStudentName);
+      expect(studentsAfter).toEqual(expectedStudents);
       // expect(page.selectedStudentSubview.isPresent()).toBeFalsy();
     });
 
     it(`adds back ${targetStudent.name}`, async () => {
       const addedStudentName = 'Alice';
-      const studentesBefore = await toStudentArray(getPageElts().allStudents);
-      const numStudents = studentesBefore.length;
+      const studentsBefore = await toStudentArray(getPageElts().allStudents);
+      const numStudents = studentsBefore.length;
 
       await element(by.css('input')).sendKeys(addedStudentName);
       await element(by.buttonText('Add student')).click();
 
       const page = getPageElts();
-      const studentesAfter = await toStudentArray(page.allStudents);
-      expect(studentesAfter.length).toEqual(numStudents + 1, 'number of students');
+      const studentsAfter = await toStudentArray(page.allStudents);
+      expect(studentsAfter.length).toEqual(numStudents + 1, 'number of students');
 
-      expect(studentesAfter.slice(0, numStudents)).toEqual(studentesBefore, 'Old students are still there');
+      expect(studentsAfter.slice(0, numStudents)).toEqual(studentsBefore, 'Old students are still there');
 
-      const maxId = studentesBefore[studentesBefore.length - 1].id;
-      expect(studentesAfter[numStudents]).toEqual({id: maxId + 1, name: addedStudentName});
+      const maxId = studentsBefore[studentsBefore.length - 1].id;
+      expect(studentsAfter[numStudents]).toEqual({id: maxId + 1, name: addedStudentName});
     });
 
     it('displays correctly styled buttons', async () => {

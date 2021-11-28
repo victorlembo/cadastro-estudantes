@@ -6,6 +6,7 @@ label {
 input {
   font-size: 1em;
   padding: .5rem;
+  margin-top: 5px;
 }
 button {
   margin-top: 20px;

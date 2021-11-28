@@ -1,14 +1,9 @@
 import { Student } from './student';
 
-export const HEROES: Student[] = [
-  { id: 11, name: 'Dr Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
+export const STUDENTS: Student[] = [
+  { id: 11, name: 'Abel Ferreira', sex: 'male', city: 'Penafiel', email: 'abel.ferreira@gmail.com', course: 'Educacao Fisica' },
+  { id: 12, name: 'Eduardo Pereira', sex: 'male', city: 'Goiania', email: 'dudu.palmeiras@gmail.com', course: 'Eventos' },
+  { id: 13, name: 'Breno Lopes', sex: 'male', city: 'Belo Horizonte', email: 'breno.lopes@gmail.com', course: 'DJ' },
+  { id: 14, name: 'Raphael Veiga', sex: 'male', city: 'Sao Paulo', email: 'raphael.veiga@gmail.com', course: 'Engenharia' },
+  { id: 15, name: 'Abel Ferreira', sex: 'male', city: 'Penafiel', email: 'abel.ferreira@gmail.com', course: 'Educacao Fisica' }
 ];

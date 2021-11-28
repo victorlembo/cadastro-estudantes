@@ -3,9 +3,18 @@
 <div>
   <label for="new-student">Student name: </label>
   <input id="new-student" #studentName />
+  <label for="new-student">Student sex: </label>
+  <input id="new-student" #studentSex />
+  <label for="new-student">Student city: </label>
+  <input id="new-student" #studentCity />
+  <label for="new-student">Student email: </label>
+  <input id="new-student" #studentEmail />
+  <label for="new-student">Student course: </label>
+  <input id="new-student" #studentCourse />
 
   <!-- (click) passes input value to add() and then clears the input -->
-  <button class="add-button" (click)="add(studentName.value); studentName.value=''">
+  <button class="add-button" (click)="add(studentName.value, studentSex.value, studentCity.value, studentEmail.value, studentCourse.value); 
+                                          studentName.value='', studentSex.value='', studentCity.value='', studentEmail.value='', studentCourse.value=''">
     Add student
   </button>
 </div>
