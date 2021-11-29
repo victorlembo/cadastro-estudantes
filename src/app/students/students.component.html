@@ -13,8 +13,7 @@
   <input id="new-student" #studentCourse />
 
   <!-- (click) passes input value to add() and then clears the input -->
-  <button class="add-button" (click)="add(studentName.value, studentSex.value, studentCity.value, studentEmail.value, studentCourse.value); 
-                                          studentName.value='', studentSex.value='', studentCity.value='', studentEmail.value='', studentCourse.value=''">
+  <button class="add-button" (click)="add(studentName.value); studentName.value=''">
     Add student
   </button>
 </div>
